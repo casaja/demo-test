@@ -36,4 +36,17 @@ class WelcomeControllerIntegrationTest {
                 .andExpect(content().string(equalTo("Welcome Stranger!")));
         verify(welcomeService).getWelcomeMessage("Stranger");
     }
+
+    @Test
+    void shouldGetCustomWelcomeMessage() throws Exception {
+        when(welcomeService
+                .getWelcomeMessage("Javi"))
+                .thenReturn("Welcome Javi!");
+
+        mockMvc.perform(get("/welcome?name=Javi"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("Welcome Javi!")));
+        verify(welcomeService).getWelcomeMessage("Javi");
+    }
 }
